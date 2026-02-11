@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         marginRight: 10,
         gap: 10,
-        boxShadow: "0 1px 10px rgba(0, 0, 0, 0.32)",
+        boxShadow: "0 5px 10px rgba(0, 0, 0, 0.1)",
         borderRadius: 5
     },
     image: {

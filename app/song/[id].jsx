@@ -1,4 +1,4 @@
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams, useRootNavigationState, useRouter } from 'expo-router';
 import {React, useEffect, useState} from 'react';
 import { StyleSheet, View ,Text} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,6 +8,8 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import { Pressable } from 'react-native';
 import { Audio } from 'expo-av';
 import Slider from '@react-native-community/slider';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useLiked } from '../../context/LikedContext';
 
 const Id = () => {
     const { id } = useLocalSearchParams();
@@ -15,6 +17,10 @@ const Id = () => {
     const [songStart, setSongStart] = useState(false);
     const [sound, setSound] = useState(null);
     const [status, setStatus] = useState(null);
+    const {addToLiked, liked, removeLiked} = useLiked()
+    const added = liked.find(item => item.id === id)
+    const router = useRouter();
+
 
     const formatTime = (ms) => {
         if (!ms) return "0:00";
@@ -80,9 +86,9 @@ const Id = () => {
                 maximumValue={status?.durationMillis || 1}
                 value={status?.positionMillis || 0}
                 onSlidingComplete={onSliderValueChange}
-                minimumTrackTintColor='#1DB954'
+                minimumTrackTintColor='#000000'
                 maximumTrackTintColor="#000000"
-                thumbTintColor="#1DB954"
+                thumbTintColor="#000000"
             />
             <View style={styles.timeRow}>
                 <Text>{formatTime(status?.positionMillis)}</Text>
@@ -96,6 +102,20 @@ const Id = () => {
                         size={56} 
                         color="black" 
                     />
+                </Pressable>
+                <Pressable onPress={() => {
+                    if (added) {
+                        removeLiked(id)
+                    }
+                    else {
+                        addToLiked(song) 
+                        router.push("/liked")
+                    }
+                }} style={{position: "absolute", marginLeft: 100, marginTop: 10}}>
+                    {added ?
+                        <MaterialIcons name="favorite" size={36} color="black" /> :
+                        <MaterialIcons name="favorite-outline" size={36} color="black" />
+                        }
                 </Pressable>
             </View>
         </SafeAreaView>

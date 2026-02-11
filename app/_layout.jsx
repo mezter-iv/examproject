@@ -1,18 +1,20 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Stack } from 'expo-router';
+import LikedProvider from '../context/LikedContext';
 
 const RootLayout = () => {
     return (
-        
-        <Stack>
-            <Stack.Screen name="(tabs)" options={{
-                headerShown: false
-            }}/>
-            <Stack.Screen name="song/[id]" options={{
-                title: ""
-            }}/>
-        </Stack>
+        <LikedProvider>
+            <Stack>
+                <Stack.Screen name="(tabs)" options={{
+                    headerShown: false
+                }}/>
+                <Stack.Screen name="song/[id]" options={{
+                    title: ""
+                }}/>
+            </Stack>
+        </LikedProvider>
     );
 }
 
